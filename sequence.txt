@@ -1,0 +1,7 @@
+title De-Dup based on eventType
+
+EventBridge Pipes->Lambda: Transform payload and invoke lambda function
+Lambda-->Lambda: Get de-dup duration for the **eventType**\nfrom **application.properties**
+Lambda-->Lambda: Check whether the record exists in state \nstore (REDIS) based on **eventId**
+Lambda-->Lambda: If the record doesnt exist in state store then\nadd a new entry with **<eventId, payload>** \nand set **EXPIRE** based on de-dup duration\nfor that **eventType** and continue with rest\nof processing.
+Lambda-->Lambda: If record exists then stop processing \nas its a duplicate event
