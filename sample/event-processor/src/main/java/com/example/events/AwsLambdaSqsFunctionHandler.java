@@ -40,8 +40,12 @@ public class AwsLambdaSqsFunctionHandler implements RequestHandler<Object, Objec
                                 System.out.println("Inserting event in redis cache: " + message);
                                 JEDIS.set(redisKey, message);
                                 JEDIS.expire(redisKey, deDupTime);
-                            } else
+
+                                // Proceed with event processing
+                            } else {
                                 System.out.println("Event already exists in redis cache: " + message);                            
+                                return ""; //Exit as its a duplicate event
+                            }                                
                         }
                     }
                 }
