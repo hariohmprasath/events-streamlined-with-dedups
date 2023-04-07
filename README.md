@@ -66,6 +66,7 @@ Here is the sequence of steps performed in the Lambda function when an event is 
 ![Seq](images/seq.png)
 
 ## Build and deploy the solution
+In this section, we will build and the deploy the sample solution provided in this repository. The sample solution uses AWS CDK to deploy the solution. 
 
 ### Prerequisites
 * We should instal AWS CDK on the local laptop. You can read more about it [here](https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html)
@@ -139,3 +140,13 @@ Event already exists in redis cache: {"id":"1","eventType":"IOT_EVENT","eventId"
 ```
 
 > As we have not crossed the 5 mins de-dup window, the data in REDIS cache is not expired and the event is flagged as duplicate.
+
+## Cleanup
+Run the following command from the root directory to delete the stack
+
+```bash
+cdk destroy
+```
+
+## Conclusion
+In this blog we have seen how we can streamline event processing across message brokers using AWS Eventbridge pipes and perform dynamic de-duplication using a state store. We have also deployed a sample solution using AWS CDK and tested it.
