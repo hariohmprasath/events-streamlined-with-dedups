@@ -32,9 +32,9 @@ Here are some common approaches that people try to solve these problems:
 
 * **De-Duplication in scale:** The general recommendations, in this case, would be to build an ETL pipeline that can read and write temporary data multiple times to a data warehouse to enable de-dups independent of the message broker. But building an ETL pipeline always requires introducing new technology and hiring resourcing to manage these pipelines in the longer term, which may only be feasible for large-scale enterprises.
   
-### Proposed solution
+## Proposed solution
 
-#### Solution overview
+### Solution overview
 The solution highlighted in this blog uses AWS Eventbridge pipes to streamline events from different message brokers into a standard format and then push these events into a central processing system deployed as Lambda functions. The Lambda functions will perform de-dups on the events based on an attribute inside the payload and pass it on to the downstream systems. The solution uses AWS Elastic Cache with REDIS as a state store to build and manage a dynamic de-duplication window. 
 
 Here are a few advantages of this approach:
@@ -45,7 +45,7 @@ Here are a few advantages of this approach:
   * In this solution, we use AWS Lambda to centralize the processing of events, so we can independently scale the Lambda function based on the number of events.
   * Since REDIS is used as a state store to build these dynamic de-dup windows, we can scale the REDIS cluster independently depending on the number of de-dup windows we want to maintain.
 
-#### Components used
+### Components used
 We use following components to build the solution:
 
 * AWS Eventbridge pipes - Amazon EventBridge Pipes helps you create point-to-point integrations between event producers and consumers with optional transform, filter and enrich steps. EventBridge Pipes reduces the amount of integration code you need to write and maintain when building event-driven applications.
@@ -65,15 +65,15 @@ Here is the sequence of steps performed in the Lambda function when an event is 
 
 ![Seq](images/seq.png)
 
-### Build and deploy the solution
+## Build and deploy the solution
 
-#### Prerequisites
+### Prerequisites
 * We should instal AWS CDK on the local laptop. You can read more about it [here](https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html)
 * `Yarn` needs to be installed. You can check the installation status by running this command
 * An AWS account with console and API access
 * Docker desktop needs to be installed on the local laptop, you can read more about it [here](https://www.docker.com/products/docker-desktop)
 
-#### Build
+### Build
 Check out the code from this repository using this command:
 
 ```bash
@@ -83,7 +83,7 @@ Check out the code from this repository using this command:
 
 > Note: Source code for the lambda functions is available under `sample` folder
 
-#### Deploy
+### Deploy
 Code for the sample application using this CDK construct is available in `src/cdk-stack.ts`. In order to deploy the application, first bootstrap a CDK environment (if you haven't done so already).
 
 ```bash
@@ -114,7 +114,7 @@ Stack ARN:
 arn:aws:cloudformation:us-east-1:xxxxxxx:stack/CdkStack/b40f1120-d389-11ed-ad64-12ec7f1ad233
 ```
 
-### Testing the solution
+## Testing the solution
 
 1. Send a test event to SQS queue using this command:
 
